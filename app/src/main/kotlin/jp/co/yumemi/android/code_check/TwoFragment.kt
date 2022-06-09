@@ -36,7 +36,7 @@ class TwoFragment : Fragment(R.layout.fragment_two) {
 
         Log.d("検索した日時", lastSearchDate.toString())
 
-        var item = args.item
+        val item = args.item
         itemSet(item)
     }
 
