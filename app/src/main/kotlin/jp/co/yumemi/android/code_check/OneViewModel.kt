@@ -5,7 +5,6 @@ package jp.co.yumemi.android.code_check
 
 import android.content.Context
 import android.os.Parcelable
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -14,10 +13,7 @@ import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONObject
@@ -25,7 +21,8 @@ import java.util.*
 
 /**
  * OneFragment にて呼び出される
- * TwoFragment ではitemクラス変数に格納されたデータ群を表示
+ *
+ * TwoFragment ではsearchResults内部でitemクラス変数に格納されたデータ群を表示
  */
 class OneViewModel(
     val context: Context
@@ -54,6 +51,7 @@ class OneViewModel(
         }.await()
     }
 
+    //
     fun itemListSet(jsonBody: JSONObject):MutableList<item>{
         val jsonItems = jsonBody.optJSONArray("items")?: JSONArray()
         val items = mutableListOf<item>()

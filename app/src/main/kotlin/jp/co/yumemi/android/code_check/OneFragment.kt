@@ -3,9 +3,7 @@
  */
 package jp.co.yumemi.android.code_check
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
-import jp.co.yumemi.android.code_check.databinding.FragmentTwoBinding
 
 class OneFragment: Fragment(R.layout.fragment_one){
 
