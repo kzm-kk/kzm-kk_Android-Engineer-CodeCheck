@@ -36,8 +36,6 @@ class TwoFragment : Fragment(R.layout.fragment_two) {
 
         Log.d("検索した日時", lastSearchDate.toString())
 
-        //binding = FragmentTwoBinding.bind(view)
-
         var item = args.item
         itemSet(item)
     }

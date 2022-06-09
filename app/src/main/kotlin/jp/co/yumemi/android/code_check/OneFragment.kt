@@ -51,34 +51,12 @@ class OneFragment: Fragment(R.layout.fragment_one){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
 
-        //fragmentOneBinding = FragmentOneBinding.bind(view)
-
-        //val oneViewModel = OneViewModel(requireContext())
-
         val linearLayoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
             DividerItemDecoration(requireContext(), linearLayoutManager.orientation)
-        /*val customAdapter = CustomAdapter(object : CustomAdapter.OnItemClickListener{
-            override fun itemClick(item: item){
-                gotoRepositoryFragment(item)
-            }
-        })*/
 
         _fragmentOneBinding.searchInputText.setOnEditorActionListener(event)
 
-
-        /*fragmentOneBinding.searchInputText
-            .setOnEditorActionListener{ editText, action, _ ->
-                if (action == EditorInfo.IME_ACTION_SEARCH){
-                    editText.text.toString().let {
-                        oneViewModel.searchResults(it).apply{
-                            customAdapter.submitList(this)
-                        }
-                    }
-                    return@setOnEditorActionListener true
-                }
-                return@setOnEditorActionListener false
-            }*/
 
 
         _fragmentOneBinding.recyclerView.also{

@@ -54,9 +54,21 @@ class OneViewModel(
                  * アイテムの個数分ループする
                  */
                 for (i in 0 until jsonItems.length()) {
-                    val jsonItem = jsonItems.optJSONObject(i)!!
-                    val name = jsonItem.optString("full_name")
-                    val ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url")
+                    val jsonItem = jsonItems.optJSONObject(i)?: JSONObject()
+
+                    items.add(
+                        item(
+                            name = jsonItem.optString("full_name"),
+                            ownerIconUrl = (jsonItem.optJSONObject("owner")?: JSONObject()).optString("avatar_url"),
+                            language = context.getString(R.string.written_language, jsonItem.optString("language")),
+                            stargazersCount = jsonItem.optLong("stargazers_count"),
+                            watchersCount = jsonItem.optLong("watchers_count"),
+                            forksCount = jsonItem.optLong("forks_conut"),
+                            openIssuesCount = jsonItem.optLong("open_issues_count")
+                        )
+                    )
+                    /*val name = jsonItem.optString("full_name")
+                    val ownerIconUrl = (jsonItem.optJSONObject("owner")?: JSONObject()).optString("avatar_url"),
                     val language = jsonItem.optString("language")
                     val stargazersCount = jsonItem.optLong("stargazers_count")
                     val watchersCount = jsonItem.optLong("watchers_count")
@@ -73,7 +85,7 @@ class OneViewModel(
                             forksCount = forksCount,
                             openIssuesCount = openIssuesCount
                         )
-                    )
+                    )*/
                 }
 
                 lastSearchDate = Date()
@@ -96,4 +108,18 @@ data class item(
     val watchersCount: Long,
     val forksCount: Long,
     val openIssuesCount: Long,
-) : Parcelable
+) : Parcelable/*{
+    fun itemDataSet(jsonItem: JSONObject, items: MutableList<item>, context: Context){
+        items.add(
+            item(
+                name = jsonItem.optString("full_name"),
+                ownerIconUrl = (jsonItem.optJSONObject("owner")?: JSONObject()).optString("avatar_url"),
+                language = context.getString(R.string.written_language, jsonItem.optString("language")),
+                stargazersCount = jsonItem.optLong("stargazers_count"),
+                watchersCount = jsonItem.optLong("watchers_count"),
+                forksCount = jsonItem.optLong("forks_conut"),
+                openIssuesCount = jsonItem.optLong("open_issues_count")
+            )
+        )
+    }
+}*/
