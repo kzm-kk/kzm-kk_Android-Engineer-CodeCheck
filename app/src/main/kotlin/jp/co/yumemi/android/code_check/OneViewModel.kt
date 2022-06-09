@@ -39,44 +39,46 @@ class OneViewModel(
         return@runBlocking GlobalScope.async {
 
             try {
-                val response: HttpResponse = client?.get("https://api.github.com/search/repositories") {
+                val response: HttpResponse = client.get("https://api.github.com/search/repositories") {
                     header("Accept", "application/vnd.github.v3+json")
                     parameter("q", inputText)
                 }
 
                 val jsonBody = JSONObject(response.receive<String>())
-
-                val jsonItems = jsonBody.optJSONArray("items")?: JSONArray()
-
-                val items = mutableListOf<item>()
-
-                /**
-                 * アイテムの個数分ループする
-                 */
-                for (i in 0 until jsonItems.length()) {
-                    val jsonItem = jsonItems.optJSONObject(i)?: JSONObject()
-
-                    items.add(
-                        item(
-                            name = jsonItem.optString("full_name"),
-                            ownerIconUrl = (jsonItem.optJSONObject("owner")?: JSONObject()).optString("avatar_url"),
-                            language = context.getString(R.string.written_language, jsonItem.optString("language")),
-                            stargazersCount = jsonItem.optLong("stargazers_count"),
-                            watchersCount = jsonItem.optLong("watchers_count"),
-                            forksCount = jsonItem.optLong("forks_conut"),
-                            openIssuesCount = jsonItem.optLong("open_issues_count")
-                        )
-                    )
-                }
-
-                lastSearchDate = Date()
-                receiveItems = items
+                receiveItems = itemListSet(jsonBody)
 
             }catch (e: ClientRequestException){
 
             }
             return@async receiveItems.toList()
         }.await()
+    }
+
+    fun itemListSet(jsonBody: JSONObject):MutableList<item>{
+        val jsonItems = jsonBody.optJSONArray("items")?: JSONArray()
+        val items = mutableListOf<item>()
+
+        /**
+         * アイテムの個数分ループする
+         */
+        for (i in 0 until jsonItems.length()) {
+            val jsonItem = jsonItems.optJSONObject(i)?: JSONObject()
+
+            items.add(
+                item(
+                    name = jsonItem.optString("full_name"),
+                    ownerIconUrl = (jsonItem.optJSONObject("owner")?: JSONObject()).optString("avatar_url"),
+                    language = context.getString(R.string.written_language, jsonItem.optString("language")),
+                    stargazersCount = jsonItem.optLong("stargazers_count"),
+                    watchersCount = jsonItem.optLong("watchers_count"),
+                    forksCount = jsonItem.optLong("forks_conut"),
+                    openIssuesCount = jsonItem.optLong("open_issues_count")
+                )
+            )
+        }
+
+        lastSearchDate = Date()
+        return items
     }
 }
 
